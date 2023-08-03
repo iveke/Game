@@ -2,20 +2,20 @@
   "name": "Game",
   "version": "2.0.0",
   "description": "",
-  "homepage": "https://Zetonen.github.io/parcel-template",
+  "homepage": "https://iveke.github.io/Game",
   "scripts": {
     "start": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /parcel-template/"
+    "build": "parcel build src/*.html --public-url /Game/"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zetonen/parcel-project-template.git"
+    "url": "git+https://github.com/iveke/Game.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Zetonen/parcel-template/issues"
+    "url": "https://github.com/iveke/Game/issues"
   },
   "dependencies": {
     "modern-normalize": "^1.1.0"
