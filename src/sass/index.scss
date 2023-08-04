@@ -1,2 +1,24 @@
 @import './common';
 @import './example';
+
+
+.wrapper {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    margin: auto;
+    width: 600px;
+    height: 600px;
+
+    border: 5px solid black;
+    background-color: blue;
+}
+canvas{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+}
