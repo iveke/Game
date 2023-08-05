@@ -30,6 +30,7 @@ let score = 0;
 let collisionCount = 0;
 let frame = 0;
 let gameSpeed = 1;
+let safe = false;
 const particlesArray = [];
 const maxParticles = 300;
 const ripplesArray = [];
@@ -40,7 +41,8 @@ const logsArray = [];
 // Image
 const log = document.getElementById("log");
 const car = document.getElementById("car");
-const collisions = document.getElementById("collisions")
+const collisions = document.getElementById("collisions");
+const background_lvl2 = document.getElementById("background");
 let numberOfCars = 3;
 
 
@@ -99,11 +101,13 @@ const frogger = new Frogger();
 
 function animate() {
     ctx1.clearRect(0, 0, canvas.width, canvas.height);
-    ctx2.clearRect(0, 0, canvas2.width, canvas2.height)
+    ctx2.clearRect(0, 0, canvas2.width, canvas2.height);
     ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
     ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+    ctx5.clearRect(0, 0, canvas5.width, canvas5.height)
     frogger.draw();
     frogger.update();
+    ctx1.drawImage(background_lvl2, 0,0,canvas.width, canvas.height);
     handleObstacles();
     handleScoreBoard();
     requestAnimationFrame(animate);
@@ -166,7 +170,7 @@ class Obstacle {
         this.carType = (Math.floor((Math.random() * numberOfCars)));
     }
     draw() {
-        ctx1.fillStyle = "blue";
+        // ctx1.fillStyle = "blue";
         // ctx1.fillRect(this.x, this.y, this.width, this.height);
         if (this.type === "log") {
             ctx1.drawImage(log, this.x, this.y, this.width, this.height);
@@ -206,19 +210,19 @@ function initObstacles() {
         carsArray.push(new Obstacle(x, canvas.height - grid * 3 - 20, grid * 2, grid, -2.5, "car"))
     }
     //lane 3
-    for (let i = 0; i < 3; i++) {
-        let x = i * 405;
-        carsArray.push(new Obstacle(x, canvas.height - grid * 4 - 20, grid * 2, grid, 4, "car"))
+    for (let i = 0; i < 2; i++) {
+        let x = i * 600;
+        carsArray.push(new Obstacle(x, canvas.height - grid * 4 - 20, grid * 2, grid, 3.5, "car"))
     }
     //lane 4
     for (let i = 0; i < 3; i++) {
         let x = i * 400;
-        logsArray.push(new Obstacle(x, canvas.height - grid * 5 - 20, grid * 2.5, grid, -6, "log"))
+        logsArray.push(new Obstacle(x, canvas.height - grid * 5 - 20, grid * 2.5, grid, -3, "log"))
     }
     //lane 5
     for (let i = 0; i < 3; i++) {
         let x = i * 350;
-        logsArray.push(new Obstacle(x, canvas.height - grid * 6 - 20, grid * 1.3, grid, 3.5, "log"))
+        logsArray.push(new Obstacle(x, canvas.height - grid * 6 - 20, grid * 1.3, grid, 2, "log"))
     }
 }
 initObstacles();
@@ -237,6 +241,21 @@ function handleObstacles() {
     for (let i = 0; i < carsArray.length; i++) {
         if (collision(frogger, carsArray[i])) {
             // ctx4.drawImage(collisions, 0, 100, 100, frogger.x, frogger.y, 50, 50);
+            resetGame();
+        }
+    }
+
+    //colistion with log
+
+    if (frogger.y < 250 && frogger.y > 100) {
+        safe = false;
+        for (let i = 0; i < logsArray.length; i++) {
+            if ((collision(frogger, logsArray[i]))) {
+                frogger.x += logsArray[i].speed;
+                safe = true;
+            }
+        }
+        if (!safe) {
             resetGame();
         }
     }
