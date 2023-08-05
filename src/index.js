@@ -37,6 +37,10 @@ const carsArray = [];
 const logsArray = [];
 
 
+
+
+
+
 class Frogger {
     constructor() {
         this.spriteWidth = 250;
@@ -86,20 +90,25 @@ class Frogger {
     }
 }
 
+//Frogger intalization
 const frogger = new Frogger();
 
 
 function animate() {
-    ctx1.clearRect(0, 0, canvas.width, canvas.height)
+    ctx1.clearRect(0, 0, canvas.width, canvas.height);
     ctx3.clearRect(0, 0, canvas.width, canvas.height);
+    ctx4.clearRect(0,0,canvas4.width, canvas4.height);
     frogger.draw();
     frogger.update();
     handleObstacles();
+    handleScoreBoard();
     requestAnimationFrame(animate);
 
 }
 
+
 animate()
+
 
 
 // event listener
@@ -122,6 +131,23 @@ function scored() {
     frogger.x = canvas.width / 2 - frogger.width / 2;
     frogger.y = canvas.height - frogger.height - 40;
 }
+
+function handleScoreBoard() {
+    ctx4.fillStyle = "black";
+    ctx4.strokeStyle = "black";
+ctx4.font = "15px Verdana";
+ctx4.strokeText("Score", 265, 15);
+ctx4.font = "60px Verdana";
+ctx4.fillText(score, 270, 65);
+ctx4.font = "18px Verdana";
+ctx4.strokeText("Collisions " + collisionCount, 10, 175);
+ctx4.strokeText("Game Speed " + gameSpeed, 10, 195);
+}
+
+
+
+
+
 
 class Obstacle {
     constructor(x, y, width, height, speed, type) {
@@ -173,9 +199,9 @@ function initObstacles() {
         logsArray.push(new Obstacle(x, canvas.height - grid * 5 - 20, grid * 2.5, grid, -6, "log"))
     }
     //lane 5
-    for(let i =0; i <3; i++){
-        let x = i*350;
-        logsArray.push(new Obstacle(x, canvas.height - grid *6 -20, grid *1.3,grid, 3.5,"log"))
+    for (let i = 0; i < 3; i++) {
+        let x = i * 350;
+        logsArray.push(new Obstacle(x, canvas.height - grid * 6 - 20, grid * 1.3, grid, 3.5, "log"))
     }
 }
 initObstacles();
@@ -190,3 +216,6 @@ function handleObstacles() {
         logsArray[i].draw();
     }
 }
+
+
+
