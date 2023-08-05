@@ -43,6 +43,7 @@ const log = document.getElementById("log");
 const car = document.getElementById("car");
 const collisions = document.getElementById("collisions");
 const background_lvl2 = document.getElementById("background");
+const froggerSprite = document.getElementById("frogger");
 let numberOfCars = 3;
 
 
@@ -88,7 +89,8 @@ class Frogger {
     }
     draw() {
         ctx3.fillStyle = 'green';
-        ctx3.fillRect(this.x, this.y, this.width, this.height);
+        // ctx3.fillRect(this.x, this.y, this.width, this.height);
+        ctx3.drawImage(froggerSprite, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.x - 25, this.y - 25, this.width * 2, this.height * 2)
     }
     jump() {
         console.log("jump");
@@ -107,7 +109,7 @@ function animate() {
     ctx5.clearRect(0, 0, canvas5.width, canvas5.height)
     frogger.draw();
     frogger.update();
-    ctx1.drawImage(background_lvl2, 0,0,canvas.width, canvas.height);
+    ctx1.drawImage(background_lvl2, 0, 0, canvas.width, canvas.height);
     handleObstacles();
     handleScoreBoard();
     requestAnimationFrame(animate);
@@ -180,7 +182,7 @@ class Obstacle {
 
     }
     update() {
-        this.x += this.speed * gameSpeed;
+        this.x += Math.round(this.speed * gameSpeed);
         if (this.speed > 0) {
 
             if (this.x > canvas.width + this.width) {
@@ -251,7 +253,13 @@ function handleObstacles() {
         safe = false;
         for (let i = 0; i < logsArray.length; i++) {
             if ((collision(frogger, logsArray[i]))) {
-                frogger.x += logsArray[i].speed;
+                if (logsArray[i].speed < 0) {
+                    frogger.x = frogger.x + (logsArray[i].speed);
+                }
+                else if (logsArray[i].speed > 0) {
+                    frogger.x += logsArray[i].speed;
+                }
+
                 safe = true;
             }
         }
