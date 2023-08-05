@@ -37,8 +37,11 @@ const carsArray = [];
 const logsArray = [];
 
 
-
-
+// Image
+const log = document.getElementById("log");
+const car = document.getElementById("car");
+const collisions = document.getElementById("collisions")
+let numberOfCars = 3;
 
 
 class Frogger {
@@ -96,8 +99,9 @@ const frogger = new Frogger();
 
 function animate() {
     ctx1.clearRect(0, 0, canvas.width, canvas.height);
-    ctx3.clearRect(0, 0, canvas.width, canvas.height);
-    ctx4.clearRect(0,0,canvas4.width, canvas4.height);
+    ctx2.clearRect(0, 0, canvas2.width, canvas2.height)
+    ctx3.clearRect(0, 0, canvas3.width, canvas3.height);
+    ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
     frogger.draw();
     frogger.update();
     handleObstacles();
@@ -135,13 +139,13 @@ function scored() {
 function handleScoreBoard() {
     ctx4.fillStyle = "black";
     ctx4.strokeStyle = "black";
-ctx4.font = "15px Verdana";
-ctx4.strokeText("Score", 265, 15);
-ctx4.font = "60px Verdana";
-ctx4.fillText(score, 270, 65);
-ctx4.font = "18px Verdana";
-ctx4.strokeText("Collisions " + collisionCount, 10, 175);
-ctx4.strokeText("Game Speed " + gameSpeed, 10, 195);
+    ctx4.font = "15px Verdana";
+    ctx4.strokeText("Score", 265, 15);
+    ctx4.font = "60px Verdana";
+    ctx4.fillText(score, 270, 65);
+    ctx4.font = "18px Verdana";
+    ctx4.strokeText("Collisions " + collisionCount, 10, 175);
+    ctx4.strokeText("Game Speed " + gameSpeed.toFixed(1), 10, 195);
 }
 
 
@@ -155,22 +159,35 @@ class Obstacle {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.frameX = 0;
+        this.frameY = 0;
         this.speed = speed;
         this.type = type;
+        this.carType = (Math.floor((Math.random() * numberOfCars)));
     }
     draw() {
         ctx1.fillStyle = "blue";
-        ctx1.fillRect(this.x, this.y, this.width, this.height);
+        // ctx1.fillRect(this.x, this.y, this.width, this.height);
+        if (this.type === "log") {
+            ctx1.drawImage(log, this.x, this.y, this.width, this.height);
+        } else if (this.type === "car") {
+            ctx2.drawImage(car, this.frameX * this.width, this.carType * this.height, grid * 2, grid, this.x, this.y, this.width, this.height);
+        }
+
     }
     update() {
         this.x += this.speed * gameSpeed;
         if (this.speed > 0) {
+
             if (this.x > canvas.width + this.width) {
                 this.x = 0 - this.width;
+                this.carType = (Math.floor((Math.random() * numberOfCars)));
             }
         } else {
+            this.frameX = 1;
             if (this.x < 0 - this.width) {
                 this.x = canvas.width + this.width;
+                this.carType = (Math.floor((Math.random() * numberOfCars)));
             }
         }
 
@@ -215,7 +232,30 @@ function handleObstacles() {
         logsArray[i].update();
         logsArray[i].draw();
     }
+
+    //colistion with car
+    for (let i = 0; i < carsArray.length; i++) {
+        if (collision(frogger, carsArray[i])) {
+            // ctx4.drawImage(collisions, 0, 100, 100, frogger.x, frogger.y, 50, 50);
+            resetGame();
+        }
+    }
 }
 
 
+function collision(first, second) {
+    return !(first.x > second.width + second.x ||
+        first.x + first.width < second.x ||
+        first.y > second.y + second.height ||
+        first.y + first.height < second.y);
+}
 
+
+function resetGame() {
+    frogger.x = canvas.width / 2 - frogger.width / 2;
+    frogger.y = canvas.height - frogger.height - 40;
+    score = 0;
+    collisionCount += 1;
+    gameSpeed = 1;
+
+}
