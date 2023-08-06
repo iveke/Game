@@ -64,6 +64,8 @@ class Frogger {
             if (this.moving === false) { //up
                 this.y -= grid;
                 this.moving = true;
+                this.frameX = 1;
+                this.frameY = 0;
 
             }
         }
@@ -71,18 +73,21 @@ class Frogger {
             if (this.y < canvas.height - this.height * 2 && this.moving === false) { //up
                 this.y += grid;
                 this.moving = true;
+                this.frameY = 3;
             }
         }
         if (keys[37]) { //left
             if (this.x > this.width && this.moving === false) { //up
                 this.x -= grid;
                 this.moving = true;
+                this.frameY = 2;
             }
         }
         if (keys[39]) { //right
             if (this.x < canvas.width - this.width * 2 && this.moving === false) { //up
                 this.x += grid;
                 this.moving = true;
+                this.framey = 1;
             }
         }
         if (this.y < 0) scored();
@@ -93,7 +98,11 @@ class Frogger {
         ctx3.drawImage(froggerSprite, this.frameX * this.spriteWidth, this.frameY * this.spriteHeight, this.spriteWidth, this.spriteHeight, this.x - 25, this.y - 25, this.width * 2, this.height * 2)
     }
     jump() {
-        console.log("jump");
+        console.log(this.frameX);
+        if (this.moving === false) this.frameX = 1;
+        else if (this.frameX === 1) this.frameX = 0;
+
+
     }
 }
 
@@ -219,7 +228,7 @@ function initObstacles() {
     //lane 4
     for (let i = 0; i < 3; i++) {
         let x = i * 400;
-        logsArray.push(new Obstacle(x, canvas.height - grid * 5 - 20, grid * 2.5, grid, -3, "log"))
+        logsArray.push(new Obstacle(x, canvas.height - grid * 5 - 20, grid * 2, grid, -3, "log"))
     }
     //lane 5
     for (let i = 0; i < 3; i++) {
