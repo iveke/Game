@@ -87,7 +87,7 @@ class Frogger {
             if (this.x < canvas.width - this.width * 2 && this.moving === false) { //up
                 this.x += grid;
                 this.moving = true;
-                this.framey = 1;
+                this.frameY = 1;
             }
         }
         if (this.y < 0) scored();
@@ -142,6 +142,7 @@ window.addEventListener('keydown', (e) => {
 window.addEventListener('keyup', (e) => {
     delete keys[e.keyCode];
     frogger.moving = false;
+    frogger.frameX = 0;
 })
 
 function scored() {
