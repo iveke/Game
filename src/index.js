@@ -128,7 +128,7 @@ function animate() {
 
 animate()
 
-
+console.log("hello")
 
 // event listener
 window.addEventListener('keydown', (e) => {
@@ -147,7 +147,7 @@ window.addEventListener('keyup', (e) => {
 
 function scored() {
     score++;
-    gameSpeed += 0.05;
+    gameSpeed += 0.5;
     frogger.x = canvas.width / 2 - frogger.width / 2;
     frogger.y = canvas.height - frogger.height - 40;
 }
