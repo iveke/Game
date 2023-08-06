@@ -146,7 +146,7 @@ window.addEventListener('keyup', (e) => {
 
 function scored() {
     score++;
-    gameSpeed += 0.5;
+    gameSpeed += 0.1;
     frogger.x = canvas.width / 2 - frogger.width / 2;
     frogger.y = canvas.height - frogger.height - 40;
 }
