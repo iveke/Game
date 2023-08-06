@@ -127,7 +127,7 @@ function animate() {
 
 
 animate()
-
+console.log("hello world");
 
 // event listener
 window.addEventListener('keydown', (e) => {
